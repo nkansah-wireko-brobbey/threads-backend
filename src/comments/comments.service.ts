@@ -25,6 +25,22 @@ export class CommentsService {
     return this.userModel.find().populate(['user', 'parent']).exec();
   }
 
+  getTopLevelComment() {
+    const topLevelComments = this.userModel.find({
+      parent: null,
+    });
+
+    return topLevelComments;
+  }
+
+  getCommentsByParentId(parentId: string) {
+    const comments = this.userModel.find({
+      parent: parentId,
+    });
+
+    return comments;
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} comment`;
   }

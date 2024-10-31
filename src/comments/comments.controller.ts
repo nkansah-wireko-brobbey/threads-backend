@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -21,7 +22,11 @@ export class CommentsController {
   }
 
   @Get()
-  findAll() {
+  getComments(@Query() queryParam) {
+    if (queryParam.parentId) {
+      return this.commentsService.getCommentsByParentId(queryParam.parentId);
+    }
+
     return this.commentsService.findAll();
   }
 
