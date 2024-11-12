@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCommentDto } from './dto/create-comment.dto';
-import { UpdateCommentDto } from './dto/update-comment.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Comment } from './schemas/comment.schema';
 import { Model } from 'mongoose';
@@ -26,9 +25,11 @@ export class CommentsService {
   }
 
   getTopLevelComment() {
-    const topLevelComments = this.userModel.find({
-      parent: null,
-    });
+    const topLevelComments = this.userModel
+      .find({
+        parent: null,
+      })
+      .sort({ createdAt: -1 });
 
     return topLevelComments;
   }
@@ -43,10 +44,6 @@ export class CommentsService {
 
   findOne(id: number) {
     return `This action returns a #${id} comment`;
-  }
-
-  update(id: number, updateCommentDto: UpdateCommentDto) {
-    return `This action updates a #${id} comment`;
   }
 
   remove(id: number) {
